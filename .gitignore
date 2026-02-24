@@ -20,8 +20,5 @@ pnpm-debug.log*
 # macOS-specific files
 .DS_Store
 
-# 音声ファイル（著作権のため個人環境のみで管理）
-public/audio/
-
 # jetbrains setting folder
 .idea/
