@@ -1,0 +1,106 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import AudioPlayer from "../../components/AudioPlayer.tsx";
+
+export async function getStaticPaths() {
+  const allSets = await getCollection("questions");
+  return allSets.map((set) => ({
+    params: { year: String(set.data.year) },
+    props: { set },
+  }));
+}
+
+const { set } = Astro.props;
+const { year, title, questions } = set.data;
+---
+
+<BaseLayout title={`${year}年度 リスニング`}>
+  <div class="space-y-8">
+    <!-- パンくずリスト -->
+    <nav class="flex items-center gap-2 text-sm text-slate-400">
+      <a href="/" class="hover:text-blue-600 transition-colors">ホーム</a>
+      <span>/</span>
+      <span class="text-slate-700">{year}年度</span>
+    </nav>
+
+    <!-- ヘッダー -->
+    <div>
+      <h1 class="text-2xl font-bold text-slate-800">{year}年度</h1>
+      <p class="mt-1 text-slate-500 text-sm">{title}</p>
+      <p class="mt-1 text-xs text-slate-400">全 {questions.length} 問</p>
+    </div>
+
+    <!-- 設問リスト -->
+    <ol class="space-y-8">
+      {
+        questions.map((q) => (
+          <li>
+            <div class="space-y-3">
+              <!-- 設問番号・指示文 -->
+              <div class="flex items-start gap-3">
+                <span class="shrink-0 w-8 h-8 flex items-center justify-center rounded-full bg-blue-600 text-white text-sm font-bold">
+                  {q.number}
+                </span>
+                <div class="pt-1">
+                  {q.instruction && (
+                    <p class="text-xs text-slate-500 mb-1">{q.instruction}</p>
+                  )}
+                  <p class="text-sm font-medium text-slate-700">Question {q.number}</p>
+                </div>
+              </div>
+
+              <!-- AudioPlayer (React Island) -->
+              <div class="pl-11">
+                <AudioPlayer
+                  client:load
+                  src={q.audioPath}
+                  title={`Passage ${q.number}`}
+                  transcript={q.passage}
+                />
+
+                <!-- サブ設問 -->
+                {q.subQuestions && q.subQuestions.length > 0 && (
+                  <div class="mt-4 space-y-4">
+                    {q.subQuestions.map((sq, i) => (
+                      <div class="bg-slate-50 rounded-lg border border-slate-200 p-4">
+                        <p class="text-sm font-medium text-slate-700 mb-2">
+                          <span class="text-blue-600 font-bold mr-1">Q{i + 1}.</span>
+                          {sq.question}
+                        </p>
+                        <ul class="space-y-1">
+                          {sq.choices.map((choice) => (
+                            <li class="text-sm text-slate-600 pl-2">{choice}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+
+    <!-- フッターナビ -->
+    <div class="pt-4 border-t border-slate-200">
+      <a
+        href="/"
+        class="inline-flex items-center gap-2 text-sm text-slate-500 hover:text-blue-600 transition-colors"
+      >
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          class="w-4 h-4"
+        >
+          <polyline points="15 18 9 12 15 6" />
+        </svg>
+        問題セット一覧に戻る
+      </a>
+    </div>
+  </div>
+</BaseLayout>

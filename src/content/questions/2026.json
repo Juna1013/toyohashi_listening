@@ -1,0 +1,54 @@
+{
+  "year": 2026,
+  "title": "令和8年度 豊橋技術科学大学 第3年次入学者選抜 英語 大問5 聴き取りテスト",
+  "questions": [
+    {
+      "number": 1,
+      "instruction": "英文が2度読まれる。続いて、その内容についての質問がそれぞれ2度読まれる。質問に対する正しい答えをA〜Cから選べ。",
+      "passage": "Person A: OK, let's discuss the results of the customer survey about what ways our customers would like us to improve the department store.\n\nPerson B: Sure, let's start with the clearest finding, which is that our customers want us to increase the parking spaces available.\n\nPerson A: Well, when we complete construction of the new parking area next year, that will add another 150 spaces, which should be more than enough.\n\nPerson B: Perhaps we should start advertising that now, to let the customers know that we are addressing their concerns. How about the food hall development?\n\nPerson A: We noticed a strong demand for more fresh produce, especially from local farmers. In addition, there was a request for more low-calorie options in our ready meals.\n\nPerson B: We should be able to meet these requests, although the price of some products may increase. I'm a little concerned that some customers will be dissatisfied.\n\nPerson A: Don't worry! I believe that our customers will be willing to pay more for better quality food.\n\nPerson B: I agree. Hopefully they will also be pleased with the special offers we are running to promote the redevelopment.",
+      "audioPath": "/audio/2026/passage1.m4a",
+      "subQuestions": [
+        {
+          "question": "What was the main request from customers in the survey?",
+          "choices": ["A. More parking", "B. More low-calorie meals", "C. More quality products"]
+        },
+        {
+          "question": "Which of the following did customers not request?",
+          "choices": ["A. Fresh vegetables", "B. Special offers", "C. Locally sourced food"]
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "instruction": "英文が2度読まれる。続いて、その内容についての質問がそれぞれ2度読まれる。質問に対する正しい答えをA〜Cから選べ。",
+      "passage": "Comets are amazing celestial objects composed of frozen gases, rocks, and dust, and are fascinating for both scientists and stargazers. Originating from the extremely cold areas of the outer solar system, these cosmic travelers occasionally make their way close to the sun. As they get near, solar radiation from the sun changes the ice on the surface of the comet's solid core, called the nucleus, creating a cloud around this nucleus, known as the coma. Spectacular tails, comprised of gas and dust follow behind the comet, sometimes millions of kilometers long. From a scientific perspective, comets offer important insights into the early solar system's composition and dynamics. They preserve ancient materials that tell us about the origins of the universe. Thus, studying comets remains important in advancing our understanding of the universe and our place within it.",
+      "audioPath": "/audio/2026/passage2.m4a",
+      "subQuestions": [
+        {
+          "question": "According to the passage, what is the solid core of the comet called?",
+          "choices": ["A. The coma", "B. The nucleus", "C. The rocks"]
+        },
+        {
+          "question": "What do comets contain that help us understand the origins of the universe?",
+          "choices": ["A. Solar radiation", "B. Very old materials", "C. Long tails"]
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "instruction": "英文が2度読まれる。続いて、その内容についての質問がそれぞれ2度読まれる。質問に対する正しい答えをA〜Cから選べ。",
+      "passage": "Located in Central Asia, Kyrgyzstan has stunning landscapes and a rich nomadic heritage. The Kyrgyz people, with their deep ties to tradition, offer warm hospitality and a beautiful culture. In Bishkek, the capital city, Soviet-era architecture blends with modern life in Ala-Too Square and the busy city market, Osh Bazaar. Beyond the city, the Tien Shan mountains invite adventurers with their beauty. Whether trekking in Ala Archa National Park or horseback riding by Issyk-Kul, the world's second-largest alpine lake, Kyrgyzstan promises unforgettable experiences. But it's the people who truly make the country shine, welcoming visitors with open arms and sharing their customs and stories. In this area of Central Asia, Kyrgyzstan stands out as a unique country, combining history, nature, and hospitality into an appealing destination.",
+      "audioPath": "/audio/2026/passage3.m4a",
+      "subQuestions": [
+        {
+          "question": "Where is Ala-Too Square?",
+          "choices": ["A. Tien Shan", "B. Osh Bazaar", "C. Bishkek"]
+        },
+        {
+          "question": "What is Issyk-Kul?",
+          "choices": ["A. A mountain range", "B. A lake", "C. A market"]
+        }
+      ]
+    }
+  ]
+}
