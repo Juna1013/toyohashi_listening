@@ -1,7 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import AudioPlayer from "../../components/AudioPlayer.tsx";
+import TrackPlayer from "../../components/TrackPlayer.tsx";
 
 export async function getStaticPaths() {
   const allSets = await getCollection("questions");
@@ -12,95 +12,50 @@ export async function getStaticPaths() {
 }
 
 const { set } = Astro.props;
-const { year, title, questions } = set.data;
+const { year, questions } = set.data;
+
+const tracks = questions.map((q) => ({
+  number: q.number,
+  title: `Passage ${q.number}`,
+  src: q.audioPath,
+  transcript: q.passage,
+  instruction: q.instruction,
+}));
 ---
 
 <BaseLayout title={`${year}年度 リスニング`}>
-  <div class="space-y-8">
-    <!-- パンくずリスト -->
-    <nav class="flex items-center gap-2 text-sm text-slate-400">
-      <a href="/" class="hover:text-blue-600 transition-colors">ホーム</a>
-      <span>/</span>
-      <span class="text-slate-700">{year}年度</span>
-    </nav>
+  <!-- 戻るボタン（固定・左上） -->
+  <button
+    id="back-btn"
+    aria-label="ホームに戻る"
+    class="fixed top-4 left-4 z-50 w-10 h-10 flex items-center justify-center rounded-full bg-white/10 hover:bg-white/20 active:bg-white/30 text-white transition-colors"
+  >
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="w-5 h-5">
+      <polyline points="6 9 12 15 18 9" />
+    </svg>
+  </button>
 
-    <!-- ヘッダー -->
-    <div>
-      <h1 class="text-2xl font-bold text-slate-800">{year}年度</h1>
-      <p class="mt-1 text-slate-500 text-sm">{title}</p>
-      <p class="mt-1 text-xs text-slate-400">全 {questions.length} 問</p>
-    </div>
-
-    <!-- 設問リスト -->
-    <ol class="space-y-8">
-      {
-        questions.map((q) => (
-          <li>
-            <div class="space-y-3">
-              <!-- 設問番号・指示文 -->
-              <div class="flex items-start gap-3">
-                <span class="shrink-0 w-8 h-8 flex items-center justify-center rounded-full bg-blue-600 text-white text-sm font-bold">
-                  {q.number}
-                </span>
-                <div class="pt-1">
-                  {q.instruction && (
-                    <p class="text-xs text-slate-500 mb-1">{q.instruction}</p>
-                  )}
-                  <p class="text-sm font-medium text-slate-700">Question {q.number}</p>
-                </div>
-              </div>
-
-              <!-- AudioPlayer (React Island) -->
-              <div class="pl-11">
-                <AudioPlayer
-                  client:load
-                  src={q.audioPath}
-                  title={`Passage ${q.number}`}
-                  transcript={q.passage}
-                />
-
-                <!-- サブ設問 -->
-                {q.subQuestions && q.subQuestions.length > 0 && (
-                  <div class="mt-4 space-y-4">
-                    {q.subQuestions.map((sq, i) => (
-                      <div class="bg-slate-50 rounded-lg border border-slate-200 p-4">
-                        <p class="text-sm font-medium text-slate-700 mb-2">
-                          <span class="text-blue-600 font-bold mr-1">Q{i + 1}.</span>
-                          {sq.question}
-                        </p>
-                        <ul class="space-y-1">
-                          {sq.choices.map((choice) => (
-                            <li class="text-sm text-slate-600 pl-2">{choice}</li>
-                          ))}
-                        </ul>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </div>
-          </li>
-        ))
-      }
-    </ol>
-
-    <!-- フッターナビ -->
-    <div class="pt-4 border-t border-slate-200">
-      <a
-        href="/"
-        class="inline-flex items-center gap-2 text-sm text-slate-500 hover:text-blue-600 transition-colors"
-      >
-        <svg
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="2"
-          class="w-4 h-4"
-        >
-          <polyline points="15 18 9 12 15 6" />
-        </svg>
-        問題セット一覧に戻る
-      </a>
-    </div>
+  <div id="page-content" class="space-y-8" style="transition: transform 0.4s ease-in, opacity 0.4s ease-in;">
+    <!-- トラックプレイヤー -->
+    {tracks.length > 0 ? (
+      <TrackPlayer client:load tracks={tracks} />
+    ) : (
+      <div class="bg-white/10 rounded-xl p-10 text-center">
+        <p class="text-white/50 text-sm">この年度の音声データは現在準備中です。</p>
+      </div>
+    )}
   </div>
 </BaseLayout>
+
+<script>
+  document.getElementById("back-btn")?.addEventListener("click", () => {
+    const content = document.getElementById("page-content");
+    if (content) {
+      content.style.transform = "translateY(100vh)";
+      content.style.opacity = "0";
+    }
+    setTimeout(() => {
+      window.location.href = "/";
+    }, 380);
+  });
+</script>

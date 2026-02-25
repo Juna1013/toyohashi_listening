@@ -1,7 +1,6 @@
 ---
 import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
-import Card from "../components/ui/Card.astro";
 
 const allSets = await getCollection("questions");
 const sorted = allSets.sort((a, b) => b.data.year - a.data.year);
@@ -14,45 +13,55 @@ const sorted = allSets.sort((a, b) => b.data.year - a.data.year);
       <p class="mt-1 text-slate-500 text-sm">年度を選んで練習を始めてください。</p>
     </div>
 
-    {
-      sorted.length === 0 ? (
-        <Card>
-          <p class="text-slate-400 text-center py-8">問題データがまだありません。</p>
-        </Card>
-      ) : (
-        <ul class="grid gap-4 sm:grid-cols-2">
-          {sorted.map((set) => (
-            <li>
+    <ul class="grid gap-4 sm:grid-cols-2">
+      {sorted.map((set) => {
+        const hasContent = set.data.questions.length > 0;
+        return (
+          <li>
+            {hasContent ? (
               <a
                 href={`/${set.data.year}/`}
-                class="block bg-white rounded-xl border border-slate-200 shadow-sm p-6 hover:border-blue-300 hover:shadow-md transition-all group"
+                class="block bg-white rounded-xl border border-slate-200 shadow-sm p-6 hover:border-red-300 hover:shadow-md transition-all group"
               >
                 <div class="flex items-start justify-between gap-4">
                   <div>
-                    <p class="text-2xl font-bold text-blue-700 group-hover:text-blue-800">
+                    <p class="text-2xl font-bold text-red-700 group-hover:text-red-800">
                       {set.data.year}
                       <span class="text-base font-normal text-slate-400 ml-1">年度</span>
                     </p>
                     <p class="mt-1 text-sm text-slate-600">{set.data.title}</p>
-                    <p class="mt-2 text-xs text-slate-400">
-                      全 {set.data.questions.length} 問
-                    </p>
+                    <p class="mt-2 text-xs text-slate-400">全 {set.data.questions.length} 問</p>
                   </div>
                   <svg
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
                     stroke-width="2"
-                    class="w-5 h-5 text-slate-300 group-hover:text-blue-400 shrink-0 mt-1 transition-colors"
+                    class="w-5 h-5 text-slate-300 group-hover:text-red-400 shrink-0 mt-1 transition-colors"
                   >
                     <polyline points="9 18 15 12 9 6" />
                   </svg>
                 </div>
               </a>
-            </li>
-          ))}
-        </ul>
-      )
-    }
+            ) : (
+              <div class="bg-slate-50 rounded-xl border border-slate-200 p-6 opacity-60 cursor-not-allowed">
+                <div class="flex items-start justify-between gap-4">
+                  <div>
+                    <p class="text-2xl font-bold text-slate-400">
+                      {set.data.year}
+                      <span class="text-base font-normal text-slate-400 ml-1">年度</span>
+                    </p>
+                    <p class="mt-1 text-sm text-slate-500">{set.data.title}</p>
+                    <span class="mt-2 inline-block text-xs bg-slate-200 text-slate-500 px-2 py-0.5 rounded-full">
+                      準備中
+                    </span>
+                  </div>
+                </div>
+              </div>
+            )}
+          </li>
+        );
+      })}
+    </ul>
   </div>
 </BaseLayout>

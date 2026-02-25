@@ -6,8 +6,6 @@ interface AudioPlayerProps {
   transcript?: string;
 }
 
-const SPEEDS = [0.5, 0.75, 1.0, 1.25, 1.5] as const;
-
 function formatTime(seconds: number): string {
   if (!isFinite(seconds)) return "0:00";
   const m = Math.floor(seconds / 60);
@@ -22,7 +20,6 @@ export default function AudioPlayer({ src, title, transcript }: AudioPlayerProps
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
-  const [speed, setSpeed] = useState<(typeof SPEEDS)[number]>(1.0);
   const [loop, setLoop] = useState(false);
   const [showTranscript, setShowTranscript] = useState(false);
 
@@ -83,16 +80,6 @@ export default function AudioPlayer({ src, title, transcript }: AudioPlayerProps
     setCurrentTime(time);
   }, []);
 
-  const handleSpeed = useCallback(
-    (s: (typeof SPEEDS)[number]) => {
-      const audio = audioRef.current;
-      if (!audio) return;
-      audio.playbackRate = s;
-      setSpeed(s);
-    },
-    []
-  );
-
   const toggleLoop = useCallback(() => {
     const audio = audioRef.current;
     if (!audio) return;
@@ -141,9 +128,7 @@ export default function AudioPlayer({ src, title, transcript }: AudioPlayerProps
         </div>
 
         {/* コントロール */}
-        <div className="flex items-center justify-between gap-2">
-          {/* 再生・停止ボタン */}
-          <div className="flex items-center gap-2">
+        <div className="flex items-center justify-center gap-2">
             {/* 停止 */}
             <button
               onClick={stop}
@@ -191,26 +176,6 @@ export default function AudioPlayer({ src, title, transcript }: AudioPlayerProps
                 <path d="M21 13v2a4 4 0 0 1-4 4H3" />
               </svg>
             </button>
-          </div>
-
-          {/* 再生速度 */}
-          <div className="flex items-center gap-1">
-            {SPEEDS.map((s) => (
-              <button
-                key={s}
-                onClick={() => handleSpeed(s)}
-                className={`px-2 py-1 text-xs rounded font-mono transition-colors ${
-                  speed === s
-                    ? "bg-blue-600 text-white"
-                    : "text-slate-500 hover:bg-slate-100"
-                }`}
-                aria-label={`再生速度 ${s}倍`}
-                aria-pressed={speed === s}
-              >
-                {s}x
-              </button>
-            ))}
-          </div>
         </div>
       </div>
 

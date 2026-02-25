@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import Footer from "../components/Footer.astro";
 
 interface Props {
   title: string;
@@ -18,24 +19,11 @@ const { title, description = "豊橋技術科学大学 編入試験 英語リス
     <title>{title} | 豊橋技科大 リスニング練習</title>
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   </head>
-  <body class="min-h-screen bg-slate-50 text-slate-900">
-    <header class="bg-white border-b border-slate-200 shadow-sm">
-      <div class="max-w-4xl mx-auto px-4 py-4 flex items-center gap-3">
-        <a href="/" class="flex items-center gap-2 hover:opacity-80 transition-opacity">
-          <span class="text-2xl font-bold text-blue-700">TUT</span>
-          <span class="text-sm text-slate-500 hidden sm:block">リスニング練習</span>
-        </a>
-      </div>
-    </header>
-
+  <body class="min-h-screen bg-gradient-to-b from-red-800 to-zinc-950 text-slate-900">
     <main class="max-w-4xl mx-auto px-4 py-8">
       <slot />
     </main>
 
-    <footer class="border-t border-slate-200 mt-16">
-      <div class="max-w-4xl mx-auto px-4 py-6 text-center text-sm text-slate-400">
-        個人学習目的のみ使用可 &mdash; 豊橋技術科学大学 編入試験 英語リスニング練習アプリ
-      </div>
-    </footer>
+    <Footer />
   </body>
 </html>
